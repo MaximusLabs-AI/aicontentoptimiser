@@ -1,0 +1,816 @@
+<prompt>
+
+<!-- ============================================================
+     MaximusLabs AI - Internal Tool UI Converter Prompt
+     Purpose: Convert any internal tool into a premium, brand-consistent
+              UI that matches the MaximusLabs website exactly.
+     Version: 1.0 | 2026-03-15
+     ============================================================ -->
+
+<context>
+  <company>MaximusLabs AI (maximuslabs.ai)</company>
+  <description>
+    MaximusLabs AI is a Generative Engine Optimization (GEO) and Answer Engine Optimization (AEO) company
+    that helps SaaS and AI companies rank on AI search platforms (ChatGPT, Perplexity, Gemini, Grok, Claude)
+    alongside Google. The brand aesthetic is premium, technical, and trust-forward. The website uses a navy-blue
+    palette with the Satoshi font family, clean card layouts, and subtle micro-interactions.
+  </description>
+  <use-case>
+    We are embedding free internal tools on our website (maximuslabs.ai) as lead-generation and value-add resources.
+    These tools are already built and functional. Your job is ONLY to re-skin / restyle the UI so it perfectly
+    matches the MaximusLabs website design system. You are NOT building new functionality. You are converting
+    the existing tool's interface into the MaximusLabs visual language.
+  </use-case>
+  <where-tools-live>
+    These tools will be embedded directly into Webflow pages using Custom Code Embeds or hosted as standalone
+    pages linked from the MaximusLabs website. They must feel like a native part of the website, not a third-party
+    embed or an afterthought.
+  </where-tools-live>
+</context>
+
+<role>
+  You are an expert frontend UI/UX engineer and brand designer specializing in converting functional tools
+  into premium, brand-consistent interfaces. You have deep expertise in:
+  - CSS architecture and performance optimization
+  - Micro-interaction design that feels premium without being heavy
+  - Accessibility (WCAG 2.1 AA minimum)
+  - Responsive design for tools (input fields, dropdowns, tables, results)
+  - Converting "dev-quality" UIs into "design-agency-quality" UIs
+  - Making tools feel fast, light, and delightful to use
+
+  You approach every tool conversion by first understanding what the tool DOES (inputs, processing, outputs),
+  then mapping every UI element to the MaximusLabs design system below. You never invent new design patterns.
+  You use only what is defined in this prompt.
+</role>
+
+<objective>
+  <primary>
+    Take the provided internal tool code and produce a single, self-contained HTML file with the tool's
+    complete UI restyled to match the MaximusLabs website design system exactly. The output must be
+    production-ready, lightweight, and embeddable.
+  </primary>
+  <secondary>
+    - Preserve ALL existing functionality without modification
+    - Make the tool feel premium and native to the MaximusLabs website
+    - Ensure the tool loads fast (under 50KB total, zero external dependencies)
+    - Make the tool delightful to use with subtle micro-interactions
+    - Ensure full responsiveness (desktop, tablet, mobile)
+    - Ensure accessibility (keyboard navigation, screen readers, color contrast)
+  </secondary>
+</objective>
+
+<!-- ============================================================
+     DESIGN SYSTEM: MaximusLabs Website
+     These are the exact tokens from the live maximuslabs.ai website.
+     Use ONLY these values. Do not invent or approximate.
+     ============================================================ -->
+
+<design-system>
+
+  <typography>
+    <font-family>Satoshi, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif</font-family>
+    <note>Satoshi is loaded on the MaximusLabs website. When embedding on-site, it will inherit. For standalone pages, include a @font-face declaration or link to the Satoshi CSS.</note>
+
+    <scale>
+      <size name="tool-title" value="1.75rem" weight="700" line-height="1.2">Main tool heading / name</size>
+      <size name="tool-subtitle" value="1rem" weight="400" line-height="1.5">Tool description under the title</size>
+      <size name="section-heading" value="1.25rem" weight="700" line-height="1.3">Section labels within the tool (e.g., "Results", "Settings")</size>
+      <size name="input-label" value="0.875rem" weight="600" line-height="1.4">Labels above input fields, dropdowns, toggles</size>
+      <size name="input-text" value="0.9375rem" weight="400" line-height="1.5">Text inside input fields, textareas, dropdowns</size>
+      <size name="body-text" value="0.9375rem" weight="400" line-height="1.6">Descriptions, helper text, result paragraphs</size>
+      <size name="small-label" value="0.8125rem" weight="500" line-height="1.4">Tags, badges, secondary labels</size>
+      <size name="tiny-text" value="0.75rem" weight="400" line-height="1.4">Footnotes, disclaimers, character counts</size>
+      <size name="stat-number" value="2rem" weight="700" line-height="1.1">Big metric numbers in results</size>
+      <size name="button-text" value="0.875rem" weight="600" line-height="1">Button labels</size>
+    </scale>
+
+    <weights>
+      <weight name="regular" value="400" />
+      <weight name="medium" value="500" />
+      <weight name="semibold" value="600" />
+      <weight name="bold" value="700" />
+    </weights>
+  </typography>
+
+  <colors>
+    <palette name="brand-core">
+      <color name="deep-navy" hex="#001c64" usage="Tool title headings, stat numbers, strong emphasis text" />
+      <color name="dark-blue" hex="#1e3251" usage="Primary button backgrounds, active states, step indicators (active)" />
+      <color name="medium-blue" hex="#003087" usage="Links, highlighted labels, secondary button backgrounds" />
+      <color name="accent-blue" hex="#0070e0" usage="Primary accent: active indicators, focus rings, accent borders, progress fills" />
+      <color name="light-blue" hex="#449afb" usage="Badges, tags, hover tints, secondary accents" />
+      <color name="light-blue-50" hex="#449afb80" usage="Subtle borders, hover backgrounds (50% opacity)" />
+    </palette>
+
+    <palette name="neutrals">
+      <color name="white" hex="#ffffff" usage="Card backgrounds, input field backgrounds, tool container background" />
+      <color name="grey-bg" hex="#f3f3f6" usage="Page background, input disabled state, result card backgrounds, section backgrounds" />
+      <color name="body-text" hex="#333333" usage="Primary body text color" />
+      <color name="secondary-text" hex="#555555" usage="Descriptions, helper text, placeholder concepts" />
+      <color name="muted-text" hex="#666666" usage="Tertiary text, footnotes, character counts" />
+      <color name="border" hex="#e2e2e2" usage="Input borders (default), card borders, dividers, table borders" />
+      <color name="subtle-bg" hex="#3d4d740f" usage="Callout backgrounds, info boxes, result highlights" />
+      <color name="black" hex="#101011" usage="Rare: only for deepest text emphasis" />
+    </palette>
+
+    <palette name="feedback">
+      <color name="success" hex="#34d399" usage="Success states, positive results, checkmarks, completion indicators" />
+      <color name="success-bg" hex="#34d39915" usage="Success state backgrounds" />
+      <color name="error" hex="#c0392b" usage="Error states, negative results, validation errors" />
+      <color name="error-bg" hex="#c0392b10" usage="Error state backgrounds" />
+      <color name="warning" hex="#fbbf24" usage="Warning states, caution indicators" />
+      <color name="warning-bg" hex="#fbbf2415" usage="Warning state backgrounds" />
+    </palette>
+
+    <gradients>
+      <gradient name="header" value="linear-gradient(192deg, #001435 30%, #003087)" usage="Tool header background (if using a header section)" />
+      <gradient name="primary-button" value="linear-gradient(135deg, #001c64, #003087)" usage="Primary CTA buttons" />
+      <gradient name="primary-button-hover" value="linear-gradient(135deg, #002d7a, #0070e0)" usage="Primary button hover state" />
+      <gradient name="result-bar-strong" value="linear-gradient(90deg, #001c64, #003087)" usage="Top-tier progress/result bars" />
+      <gradient name="result-bar-medium" value="linear-gradient(90deg, #003087, #0070e0)" usage="Medium-tier progress/result bars" />
+      <gradient name="result-bar-light" value="linear-gradient(90deg, #0070e0, #449afb)" usage="Lower-tier progress/result bars" />
+    </gradients>
+  </colors>
+
+  <spacing>
+    <token name="tool-padding" value="32px" note="Padding inside the main tool container" />
+    <token name="tool-padding-mobile" value="20px" note="Reduced padding on mobile" />
+    <token name="section-gap" value="28px" note="Gap between major sections (inputs area, results area)" />
+    <token name="field-gap" value="18px" note="Gap between form fields" />
+    <token name="label-to-input" value="6px" note="Gap between a label and its input/dropdown" />
+    <token name="card-padding" value="20px" note="Internal padding of result cards" />
+    <token name="card-gap" value="14px" note="Gap between result cards in a grid" />
+    <token name="inline-gap" value="10px" note="Gap between inline elements (icon + text, badge + badge)" />
+  </spacing>
+
+  <borders-and-radius>
+    <token name="tool-radius" value="12px" note="Outer radius of the entire tool container" />
+    <token name="card-radius" value="8px" note="Result cards, info boxes" />
+    <token name="input-radius" value="8px" note="Input fields, textareas, dropdowns" />
+    <token name="button-radius" value="8px" note="All buttons" />
+    <token name="badge-radius" value="6px" note="Tags, badges, pills" />
+    <token name="small-radius" value="4px" note="Tiny elements, progress bar fills" />
+    <token name="tool-border" value="1px solid #1e325120" note="Subtle outer border on the tool container" />
+    <token name="input-border" value="1px solid #e2e2e2" note="Default input/dropdown border" />
+    <token name="input-border-focus" value="1px solid #0070e0" note="Focused input border" />
+    <token name="card-border" value="1px solid #e2e2e2" note="Result card borders" />
+  </borders-and-radius>
+
+  <effects>
+    <token name="tool-shadow" value="0 4px 24px rgba(0, 28, 100, 0.08)" note="Subtle elevation for the tool container" />
+    <token name="card-shadow" value="0 1px 4px rgba(0, 0, 0, 0.04)" note="Minimal card elevation" />
+    <token name="card-shadow-hover" value="0 4px 16px rgba(0, 28, 100, 0.1)" note="Card hover elevation" />
+    <token name="button-shadow" value="0 2px 8px rgba(0, 28, 100, 0.15)" note="Primary button depth" />
+    <token name="focus-ring" value="0 0 0 3px #449afb40" note="Keyboard focus outline (box-shadow)" />
+    <token name="input-focus-ring" value="0 0 0 3px #0070e033" note="Input focus ring" />
+    <token name="transition-standard" value="0.2s cubic-bezier(.77,0,.175,1)" note="Standard interaction transition" />
+    <token name="transition-fade" value="0.3s ease" note="Fade-in/out transitions" />
+    <token name="transition-spring" value="0.4s cubic-bezier(0.34, 1.56, 0.64, 1)" note="Springy pop-in for reveals" />
+    <token name="bar-animation" value="0.8s cubic-bezier(0.22, 1, 0.36, 1)" note="Progress bar fill animation" />
+  </effects>
+
+</design-system>
+
+<!-- ============================================================
+     UI ELEMENT MAPPING: How to style every possible tool element
+     ============================================================ -->
+
+<element-styling-rules>
+
+  <element name="tool-container">
+    <description>The outermost wrapper for the entire tool</description>
+    <css>
+      max-width: 780px;
+      margin: 0 auto;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #1e325120;
+      box-shadow: 0 4px 24px rgba(0, 28, 100, 0.08);
+      font-family: Satoshi, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #333;
+      line-height: 1.5;
+      overflow: hidden;
+      position: relative;
+    </css>
+    <note>If the tool is complex (multi-section, results panel), increase max-width to 900px or 960px. Never exceed 960px.</note>
+  </element>
+
+  <element name="tool-header">
+    <description>Top section with tool name, description, and optional badge</description>
+    <css>
+      background: linear-gradient(192deg, #001435 30%, #003087);
+      padding: 28px 32px 22px;
+      color: #fff;
+    </css>
+    <sub-elements>
+      <badge>display: inline-block; font-size: 0.6875rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; background: #449afb; padding: 4px 12px; border-radius: 6px; margin-bottom: 10px; color: #fff;</badge>
+      <title>font-size: 1.5rem; font-weight: 700; line-height: 1.2; margin-bottom: 6px; color: #fff;</title>
+      <subtitle>font-size: 0.875rem; font-weight: 400; opacity: 0.8; color: #fff;</subtitle>
+    </sub-elements>
+    <note>Badge text should describe the tool type: "Free Tool", "Calculator", "Analyzer", "Generator", "Checker", "Audit Tool", etc.</note>
+  </element>
+
+  <element name="input-field">
+    <description>Text inputs, email inputs, URL inputs, number inputs</description>
+    <states>
+      <default>
+        width: 100%;
+        padding: 12px 16px;
+        font-family: inherit;
+        font-size: 0.9375rem;
+        font-weight: 400;
+        color: #333;
+        background: #fff;
+        border: 1px solid #e2e2e2;
+        border-radius: 8px;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      </default>
+      <focus>
+        border-color: #0070e0;
+        box-shadow: 0 0 0 3px #0070e033;
+      </focus>
+      <error>
+        border-color: #c0392b;
+        box-shadow: 0 0 0 3px #c0392b15;
+      </error>
+      <disabled>
+        background: #f3f3f6;
+        color: #999;
+        cursor: not-allowed;
+        opacity: 0.7;
+      </disabled>
+      <placeholder>
+        color: #999;
+        font-weight: 400;
+      </placeholder>
+    </states>
+  </element>
+
+  <element name="textarea">
+    <description>Multi-line text inputs</description>
+    <css>Same as input-field, plus: min-height: 120px; resize: vertical;</css>
+  </element>
+
+  <element name="input-label">
+    <description>Label above any form field</description>
+    <css>
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: #1e3251;
+      margin-bottom: 6px;
+    </css>
+    <optional-helper-text>
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: #666;
+      margin-top: 4px;
+    </optional-helper-text>
+  </element>
+
+  <element name="dropdown-select">
+    <description>Native select dropdowns</description>
+    <css>
+      Same as input-field defaults, plus:
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23666' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    </css>
+    <note>For custom dropdowns (non-native), use the same visual treatment but build with div/ul for richer interaction. Dropdown menu items get 10px 16px padding, #f3f3f6 hover background, and 0.15s transition.</note>
+  </element>
+
+  <element name="checkbox-radio">
+    <description>Checkboxes and radio buttons</description>
+    <css>
+      Use custom-styled checkboxes/radios:
+      - Container: 20px x 20px, border: 1.5px solid #e2e2e2, border-radius: 4px (checkbox) or 50% (radio)
+      - Checked: background: #0070e0, border-color: #0070e0, white checkmark/dot inside
+      - Focus: box-shadow: 0 0 0 3px #0070e033
+      - Label: font-size: 0.9375rem, color: #333, margin-left: 10px, cursor: pointer
+    </css>
+  </element>
+
+  <element name="toggle-switch">
+    <description>On/off toggle switches</description>
+    <css>
+      - Track: 44px x 24px, border-radius: 12px, background: #e2e2e2 (off) / #0070e0 (on)
+      - Thumb: 20px x 20px, border-radius: 50%, background: #fff, box-shadow: 0 1px 3px rgba(0,0,0,0.15)
+      - Transition: 0.2s cubic-bezier(.77,0,.175,1)
+    </css>
+  </element>
+
+  <element name="range-slider">
+    <description>Range/slider inputs</description>
+    <css>
+      - Track: height 6px, background: #e2e2e2, border-radius: 3px
+      - Filled portion: background: linear-gradient(90deg, #003087, #0070e0)
+      - Thumb: 20px x 20px, border-radius: 50%, background: #fff, border: 2px solid #0070e0, box-shadow: 0 1px 4px rgba(0,0,0,0.12)
+      - Value label: position above thumb, font-size: 0.75rem, font-weight: 700, color: #001c64
+    </css>
+  </element>
+
+  <element name="primary-button">
+    <description>Main CTA / submit / run button</description>
+    <states>
+      <default>
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 28px;
+        font-family: inherit;
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: #fff;
+        background: linear-gradient(135deg, #001c64, #003087);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        box-shadow: 0 2px 8px rgba(0, 28, 100, 0.15);
+        transition: all 0.2s cubic-bezier(.77,0,.175,1);
+      </default>
+      <hover>
+        background: linear-gradient(135deg, #002d7a, #0070e0);
+        box-shadow: 0 4px 16px rgba(0, 28, 100, 0.25);
+        transform: translateY(-1px);
+      </hover>
+      <active>
+        transform: translateY(0);
+        box-shadow: 0 1px 4px rgba(0, 28, 100, 0.15);
+      </active>
+      <disabled>
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+      </disabled>
+      <loading>
+        Replace button text with a small spinner (16px, white, CSS-only animation) + "Processing..." text.
+        pointer-events: none; opacity: 0.8;
+      </loading>
+    </states>
+  </element>
+
+  <element name="secondary-button">
+    <description>Secondary actions (reset, clear, copy, export)</description>
+    <css>
+      Same sizing as primary-button, but:
+      background: transparent;
+      color: #003087;
+      border: 1.5px solid #e2e2e2;
+      box-shadow: none;
+    </css>
+    <hover>
+      background: #f3f3f6;
+      border-color: #003087;
+    </hover>
+  </element>
+
+  <element name="tab-bar">
+    <description>Horizontal tabs for switching between tool sections or result views</description>
+    <css>
+      - Container: display: flex; gap: 0; background: #f3f3f6; border-bottom: 1px solid #e2e2e2; padding: 0 32px;
+      - Tab (inactive): padding: 12px 20px; font-size: 0.875rem; font-weight: 500; color: #555; cursor: pointer; border-bottom: 2px solid transparent; transition: 0.2s ease;
+      - Tab (active): color: #001c64; font-weight: 600; border-bottom: 2px solid #0070e0;
+      - Tab (hover, inactive): color: #333; background: #449afb10;
+    </css>
+  </element>
+
+  <element name="result-card">
+    <description>Individual result items displayed after tool processing</description>
+    <css>
+      background: #fff;
+      border: 1px solid #e2e2e2;
+      border-radius: 8px;
+      padding: 20px;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    </css>
+    <hover>
+      box-shadow: 0 4px 16px rgba(0, 28, 100, 0.1);
+      transform: translateY(-2px);
+    </hover>
+    <reveal-animation>
+      Initial: opacity: 0; transform: translateY(8px);
+      Animate to: opacity: 1; transform: translateY(0);
+      Duration: 0.35s ease;
+      Stagger: each card delayed by 80ms * index;
+    </reveal-animation>
+  </element>
+
+  <element name="stat-display">
+    <description>Big number / metric display in results</description>
+    <css>
+      - Number: font-size: 2rem; font-weight: 700; color: #001c64; line-height: 1.1;
+      - Label below: font-size: 0.8125rem; font-weight: 500; color: #555; margin-top: 4px;
+      - Container: background: #f3f3f6; padding: 18px 16px; border-radius: 8px; text-align: center; border: 1px solid #e2e2e2;
+    </css>
+    <count-up-animation>
+      Animate numbers from 0 to final value over 0.8s using requestAnimationFrame.
+      Use Intl.NumberFormat for locale-aware formatting.
+    </count-up-animation>
+  </element>
+
+  <element name="progress-bar">
+    <description>Horizontal bars showing scores, percentages, or relative values</description>
+    <css>
+      - Track: height: 8px; background: #f3f3f6; border-radius: 4px; overflow: hidden;
+      - Fill: height: 100%; border-radius: 4px; transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+      - Fill gradients (by tier):
+        High (70-100%): linear-gradient(90deg, #001c64, #003087)
+        Medium (40-69%): linear-gradient(90deg, #003087, #0070e0)
+        Low (0-39%): linear-gradient(90deg, #0070e0, #449afb)
+        Negative: linear-gradient(90deg, #c0392b, #e74c3c)
+      - Label: font-size: 0.8125rem; font-weight: 600; color: #001c64; positioned right of bar;
+    </css>
+  </element>
+
+  <element name="data-table">
+    <description>Tables displaying structured results</description>
+    <css>
+      - Wrapper: overflow-x: auto; border: 1px solid #e2e2e2; border-radius: 8px;
+      - Table: width: 100%; border-collapse: collapse; font-size: 0.875rem;
+      - TH: padding: 12px 16px; text-align: left; font-weight: 600; color: #1e3251; background: #f3f3f6; border-bottom: 1px solid #e2e2e2; font-size: 0.8125rem; text-transform: uppercase; letter-spacing: 0.5px;
+      - TD: padding: 12px 16px; border-bottom: 1px solid #f3f3f6; color: #333;
+      - TR:hover TD: background: #f3f3f605;
+      - TR:last-child TD: border-bottom: none;
+    </css>
+  </element>
+
+  <element name="badge-tag">
+    <description>Small pills for categories, statuses, labels</description>
+    <variants>
+      <default>display: inline-block; font-size: 0.75rem; font-weight: 600; padding: 3px 10px; border-radius: 6px; background: #449afb18; color: #003087;</default>
+      <success>background: #34d39918; color: #047857;</success>
+      <warning>background: #fbbf2418; color: #92400e;</warning>
+      <error>background: #c0392b12; color: #c0392b;</error>
+      <neutral>background: #f3f3f6; color: #555;</neutral>
+    </variants>
+  </element>
+
+  <element name="tooltip">
+    <description>Hover tooltips for info icons or abbreviated content</description>
+    <css>
+      - Container: position: relative; display: inline-flex;
+      - Info icon: 16px, color: #999, cursor: help
+      - Bubble: position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+        background: #1e3251; color: #fff; font-size: 0.75rem; padding: 8px 12px; border-radius: 6px;
+        white-space: nowrap; max-width: 280px; white-space: normal;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        opacity: 0; pointer-events: none; transition: opacity 0.2s ease, transform 0.2s ease;
+        transform: translateX(-50%) translateY(4px);
+      - Bubble (visible): opacity: 1; transform: translateX(-50%) translateY(0);
+      - Arrow: 6px CSS triangle at bottom center, same color as bubble
+    </css>
+  </element>
+
+  <element name="loading-spinner">
+    <description>Loading state for when the tool is processing</description>
+    <css>
+      CSS-only spinner:
+      - Size: 24px (inline) or 40px (full section)
+      - Border: 3px solid #e2e2e2; border-top-color: #0070e0;
+      - Border-radius: 50%;
+      - Animation: spin 0.6s linear infinite;
+      - Pair with "Analyzing..." / "Calculating..." / "Processing..." text in #555, font-size 0.875rem
+    </css>
+    <skeleton-loading>
+      For result areas awaiting data:
+      - Rectangular placeholders with: background: linear-gradient(90deg, #f3f3f6 25%, #e8e8ec 50%, #f3f3f6 75%);
+        background-size: 200% 100%; animation: shimmer 1.5s infinite;
+      - Match the shape of expected results (cards, bars, text lines)
+    </skeleton-loading>
+  </element>
+
+  <element name="info-callout">
+    <description>Information boxes, tips, warnings within the tool</description>
+    <css>
+      - Background: #3d4d740f;
+      - Left border: 3px solid #0070e0;
+      - Padding: 14px 18px;
+      - Border-radius: 0 8px 8px 0;
+      - Icon: info circle in #0070e0, 16px, margin-right: 10px;
+      - Text: font-size: 0.8125rem; color: #333;
+    </css>
+    <variants>
+      <warning>Left border: #fbbf24; Icon color: #fbbf24;</warning>
+      <error>Left border: #c0392b; Icon color: #c0392b;</error>
+      <success>Left border: #34d399; Icon color: #34d399;</success>
+    </variants>
+  </element>
+
+  <element name="copy-button">
+    <description>Small button to copy results to clipboard</description>
+    <css>
+      - Size: 32px x 32px (icon-only) or auto-width with text
+      - Background: transparent; border: 1px solid #e2e2e2; border-radius: 6px;
+      - Icon: clipboard SVG, 16px, color #555
+      - Hover: background: #f3f3f6; border-color: #003087;
+      - After copy: icon changes to checkmark, color #34d399, reverts after 2s
+    </css>
+  </element>
+
+  <element name="footer">
+    <description>Bottom section of the tool</description>
+    <css>
+      padding: 14px 32px;
+      background: #f3f3f6;
+      border-top: 1px solid #e2e2e2;
+      font-size: 0.6875rem;
+      color: #1e325180;
+      text-align: center;
+    </css>
+    <content>
+      "Powered by MaximusLabs AI" with link to maximuslabs.ai.
+      Link: color: #003087; font-weight: 500; text-decoration: none;
+      Link hover: text-decoration: underline;
+    </content>
+  </element>
+
+</element-styling-rules>
+
+<!-- ============================================================
+     RULES: Non-negotiable requirements
+     ============================================================ -->
+
+<rules>
+
+  <rule id="1" name="css-scoping" priority="critical">
+    <title>Complete CSS Isolation</title>
+    <description>
+      Every tool MUST be fully CSS-scoped to prevent any style leakage to/from the host Webflow page.
+    </description>
+    <requirements>
+      - Assign a unique root ID: #ml-tool-[tool-slug] (e.g., #ml-tool-seo-analyzer)
+      - Prefix ALL CSS classes with ml-tool- (e.g., ml-tool-input, ml-tool-results)
+      - Every CSS selector MUST start with the root ID: #ml-tool-[slug] .ml-tool-input { ... }
+      - Include a scoped reset at the top: #ml-tool-[slug] *, #ml-tool-[slug] *::before, #ml-tool-[slug] *::after { box-sizing: border-box; margin: 0; padding: 0; }
+      - NEVER use bare tag selectors (never target bare p, div, h2, input, button, table, etc.)
+      - Even form elements (input, select, textarea, button) MUST be targeted via class selectors under the root ID
+    </requirements>
+  </rule>
+
+  <rule id="2" name="js-isolation" priority="critical">
+    <title>Complete JavaScript Isolation</title>
+    <requirements>
+      - Wrap ALL JavaScript in an IIFE: (function(){ var root = document.getElementById('ml-tool-[slug]'); if(!root) return; ... })();
+      - ZERO global variable declarations (no window.X, no var at top-level outside IIFE)
+      - Use root.querySelector / root.querySelectorAll for ALL DOM queries (never document.querySelector for tool elements)
+      - All event listeners attached to elements within root only
+    </requirements>
+  </rule>
+
+  <rule id="3" name="zero-dependencies" priority="critical">
+    <title>Zero External Dependencies</title>
+    <requirements>
+      - No CDN links (no jQuery, no Bootstrap, no Tailwind CDN, no Google Fonts, no Font Awesome CDN)
+      - No external JavaScript libraries
+      - No external CSS frameworks
+      - All icons must be inline SVG (16-20px, stroke-width 1.5-2, currentColor)
+      - If the original tool uses external dependencies, replicate the needed functionality in vanilla JS/CSS
+      - Exception: If the tool requires a complex library (e.g., chart.js for data visualization), discuss with the user first
+    </requirements>
+  </rule>
+
+  <rule id="4" name="performance" priority="critical">
+    <title>Performance Budget</title>
+    <requirements>
+      - Total HTML file size: under 50KB raw (under 12KB gzipped)
+      - Zero render-blocking: all CSS is inline in a style tag, all JS at the bottom or deferred
+      - No images: use SVG icons (inline), CSS gradients, and CSS shapes only
+      - Minimal DOM: avoid unnecessary wrapper divs. Flatten structure where possible
+      - CSS animations preferred over JS animations (use JS only for count-up numbers or complex sequencing)
+      - Use will-change sparingly (only on elements that actually animate frequently)
+      - Avoid layout thrashing: batch DOM reads and writes
+    </requirements>
+  </rule>
+
+  <rule id="5" name="accessibility" priority="high">
+    <title>Accessibility (WCAG 2.1 AA)</title>
+    <requirements>
+      - All interactive elements must be keyboard accessible (Tab, Enter, Space, Escape)
+      - Focus states visible on all interactive elements (use the focus-ring token: box-shadow: 0 0 0 3px #449afb40)
+      - Form inputs have associated labels (use for/id or aria-label)
+      - Buttons have descriptive text or aria-label
+      - Color contrast: all text meets 4.5:1 ratio (the design system colors are pre-validated for this)
+      - Results announced to screen readers: use aria-live="polite" on the results container
+      - Error messages linked to inputs via aria-describedby
+      - Do not rely on color alone to convey information (pair with icons or text)
+    </requirements>
+  </rule>
+
+  <rule id="6" name="responsiveness" priority="high">
+    <title>Responsive Design</title>
+    <requirements>
+      - Primary breakpoint: max-width 768px (tablet/mobile)
+      - Secondary breakpoint: max-width 480px (small mobile)
+      - At 768px: Stack side-by-side layouts, reduce padding to 20px, full-width buttons
+      - At 480px: Further reduce font sizes by ~0.0625rem, compress spacing by ~25%
+      - Inputs and buttons always full-width on mobile
+      - Result cards switch to single column
+      - Tables become horizontally scrollable
+      - Touch targets minimum 44px x 44px on mobile
+      - No horizontal scrolling on the tool container itself
+    </requirements>
+  </rule>
+
+  <rule id="7" name="no-functionality-changes" priority="critical">
+    <title>Preserve All Functionality</title>
+    <requirements>
+      - Do NOT modify the tool's core logic, calculations, API calls, or data processing
+      - Do NOT remove any features, inputs, or outputs
+      - Do NOT add new features that did not exist in the original
+      - If the tool has form validation, preserve it (just restyle the error states)
+      - If the tool has API calls, preserve them exactly (just restyle loading/success/error states)
+      - If something in the original tool is broken, note it but do not fix it unless asked
+    </requirements>
+  </rule>
+
+  <rule id="8" name="no-dashes" priority="medium">
+    <title>No Em/En Dashes</title>
+    <requirements>
+      - Replace all em dashes and en dashes with commas, colons, periods, or rewrite the sentence
+      - This is a MaximusLabs brand standard applied across all content
+    </requirements>
+  </rule>
+
+  <rule id="9" name="single-file" priority="high">
+    <title>Single File Output</title>
+    <requirements>
+      - Output must be a single HTML file containing all CSS (in style tag) and JS (in script tag)
+      - Structure: meta charset -> root div -> style tag -> HTML markup -> script tag (all inside root div)
+      - File starts with: &lt;meta charset="UTF-8"&gt;
+      - This single file will be pasted directly into a Webflow Custom Code Embed
+    </requirements>
+  </rule>
+
+</rules>
+
+<!-- ============================================================
+     INSTRUCTIONS: Step-by-step process for converting a tool
+     ============================================================ -->
+
+<instructions>
+
+  <step number="1" name="analyze-tool">
+    <title>Analyze the Provided Tool Code</title>
+    <tasks>
+      - Read the entire tool code carefully
+      - Identify every UI element: inputs (text, number, URL, email), textareas, dropdowns, checkboxes, radio buttons, toggles, sliders, buttons, tabs, results displays, tables, charts, progress bars, modals, tooltips, copy buttons, etc.
+      - Map the user flow: What does the user enter? What do they click? What happens? What do they see?
+      - Note any existing CSS classes, IDs, or inline styles
+      - Identify any external dependencies (libraries, CDNs, fonts, icons)
+      - Identify the tool's states: empty/initial, loading/processing, results/success, error
+      - Note any existing animations or transitions
+    </tasks>
+  </step>
+
+  <step number="2" name="plan-layout">
+    <title>Plan the Layout Structure</title>
+    <tasks>
+      - Decide the tool layout pattern:
+        A) Simple tool: Header -> Input Section -> Button -> Results Section -> Footer
+        B) Multi-step tool: Header -> Step Indicator -> Step Content -> Navigation -> Footer
+        C) Side-by-side tool: Header -> [Left: Inputs | Right: Live Preview/Results] -> Footer
+        D) Tabbed tool: Header -> Tab Bar -> Tab Content (each tab has its own inputs/results) -> Footer
+      - Sketch the responsive behavior: how does the layout reflow on mobile?
+      - Plan the results display: cards grid, table, stat row, progress bars, or mixed?
+      - Identify where micro-interactions add value (button press feedback, result reveals, copy confirmations)
+    </tasks>
+  </step>
+
+  <step number="3" name="build-html">
+    <title>Build the HTML Structure</title>
+    <tasks>
+      - Start with the meta charset and root div with unique ID
+      - Build semantic HTML: use form, fieldset, label, button (not div for everything)
+      - Add aria attributes: aria-label, aria-live, aria-describedby, role where needed
+      - Keep the DOM as flat as possible (minimize nesting depth)
+      - Use descriptive class names with ml-tool- prefix
+      - Include all states in the markup (loading spinner hidden by default, error messages hidden, etc.)
+    </tasks>
+  </step>
+
+  <step number="4" name="apply-styles">
+    <title>Apply the MaximusLabs Design System</title>
+    <tasks>
+      - Write all CSS inside a single style tag
+      - Start with the scoped reset
+      - Apply each design token exactly as specified (colors, fonts, spacing, radius, shadows)
+      - Style every element according to the element-styling-rules section
+      - Include all interactive states: hover, focus, active, disabled, loading, error, success
+      - Add micro-interactions: subtle hover lifts on cards, smooth focus transitions on inputs, button press feedback
+      - Add the responsive breakpoints (768px and 480px)
+      - Verify no bare tag selectors exist
+    </tasks>
+  </step>
+
+  <step number="5" name="wire-js">
+    <title>Wire Up JavaScript</title>
+    <tasks>
+      - Wrap in IIFE with root element check
+      - Migrate all original tool logic inside the IIFE
+      - Replace any document-level queries with root-scoped queries
+      - Remove any external dependency calls and replace with vanilla equivalents
+      - Add result reveal animations (staggered fade-in using requestAnimationFrame or CSS animation-delay)
+      - Add number count-up animations for stat displays
+      - Add loading state management (show spinner, disable button, hide results)
+      - Add copy-to-clipboard functionality where relevant
+      - Ensure all event listeners are properly scoped
+    </tasks>
+  </step>
+
+  <step number="6" name="polish">
+    <title>Polish and Finalize</title>
+    <tasks>
+      - Review the entire file against the quality checklist below
+      - Check file size (must be under 50KB)
+      - Remove any comments that are not essential
+      - Minify class names if approaching size limit (but keep readable if under limit)
+      - Verify the tool works identically to the original (all inputs, all outputs, all edge cases)
+      - Ensure smooth 60fps animations (no jank)
+      - Test mental model: Does this FEEL like part of the MaximusLabs website? Does it feel premium?
+    </tasks>
+  </step>
+
+</instructions>
+
+<!-- ============================================================
+     QUALITY CHECKLIST: Verify before delivering
+     ============================================================ -->
+
+<quality-checklist>
+  <check category="isolation">Root ID is unique (#ml-tool-[slug])</check>
+  <check category="isolation">ALL classes prefixed with ml-tool-</check>
+  <check category="isolation">ALL CSS selectors scoped under root ID</check>
+  <check category="isolation">Zero bare tag selectors in CSS</check>
+  <check category="isolation">JS wrapped in IIFE with null-check</check>
+  <check category="isolation">Zero global JS variables</check>
+  <check category="isolation">All DOM queries scoped to root element</check>
+
+  <check category="design">Font is Satoshi (with system fallbacks)</check>
+  <check category="design">All colors from approved palette only (cross-check every hex value)</check>
+  <check category="design">Header uses exact gradient: linear-gradient(192deg, #001435 30%, #003087)</check>
+  <check category="design">Primary button uses gradient: linear-gradient(135deg, #001c64, #003087)</check>
+  <check category="design">Border radius values match design tokens</check>
+  <check category="design">Spacing values match design tokens</check>
+  <check category="design">Typography scale matches design tokens</check>
+  <check category="design">Footer says "Powered by MaximusLabs AI" with link</check>
+
+  <check category="interaction">All inputs have visible focus states (blue ring)</check>
+  <check category="interaction">Primary button has hover lift + glow effect</check>
+  <check category="interaction">Result cards have hover elevation</check>
+  <check category="interaction">Results appear with staggered fade-in animation</check>
+  <check category="interaction">Loading state shows spinner + disabled button</check>
+  <check category="interaction">Copy button shows checkmark confirmation</check>
+
+  <check category="accessibility">All inputs have associated labels</check>
+  <check category="accessibility">Results container has aria-live="polite"</check>
+  <check category="accessibility">All interactive elements keyboard-navigable</check>
+  <check category="accessibility">Focus visible on all interactive elements</check>
+  <check category="accessibility">Color contrast meets 4.5:1 minimum</check>
+  <check category="accessibility">Touch targets 44px+ on mobile</check>
+
+  <check category="responsive">Works at 768px breakpoint (tablet)</check>
+  <check category="responsive">Works at 480px breakpoint (mobile)</check>
+  <check category="responsive">No horizontal overflow</check>
+  <check category="responsive">Inputs full-width on mobile</check>
+  <check category="responsive">Touch-friendly spacing on mobile</check>
+
+  <check category="performance">Total file under 50KB raw</check>
+  <check category="performance">Zero external dependencies</check>
+  <check category="performance">All icons are inline SVG</check>
+  <check category="performance">No images referenced</check>
+  <check category="performance">CSS animations used where possible (not JS)</check>
+  <check category="performance">meta charset="UTF-8" present</check>
+
+  <check category="functionality">All original inputs preserved</check>
+  <check category="functionality">All original outputs preserved</check>
+  <check category="functionality">Core logic unchanged</check>
+  <check category="functionality">No new features added</check>
+  <check category="functionality">No em/en dashes in any text</check>
+</quality-checklist>
+
+<!-- ============================================================
+     OUTPUT FORMAT
+     ============================================================ -->
+
+<output-format>
+  <instruction>
+    Deliver the converted tool as a single HTML code block. Before the code, provide a brief summary:
+    1. Tool name and what it does (1 sentence)
+    2. Layout pattern chosen (A/B/C/D from step 2)
+    3. Key UI elements identified and restyled (bullet list)
+    4. Any external dependencies that were removed and replaced (if applicable)
+    5. Any notes or warnings (edge cases, limitations, suggestions)
+
+    After the code, provide:
+    6. Embed instructions for Webflow
+    7. File size of the output
+  </instruction>
+</output-format>
+
+</prompt>
