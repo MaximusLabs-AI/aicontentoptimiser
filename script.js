@@ -91,7 +91,7 @@
         try {
             const API_URL = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
                 ? `http://localhost:8787/api/content-optimizer`
-                : '/api/content-optimizer';
+                : 'https://aicontentoptimiser.onrender.com/api/content-optimizer';
 
             const response = await fetch(API_URL, {
                 method: 'POST',

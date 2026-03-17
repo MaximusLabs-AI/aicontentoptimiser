@@ -113,6 +113,6 @@ const server = http.createServer(async (req, res) => {
 });
 
 const PORT = process.env.PORT || 8787;
-server.listen(PORT, '127.0.0.1', () => {
-    console.log(`\n  🚀  Server running at  http://127.0.0.1:${PORT}\n`);
+server.listen(PORT, () => {
+    console.log(`\n  🚀  Server running at  http://${process.env.RENDER_EXTERNAL_HOSTNAME || '0.0.0.0'}:${PORT}\n`);
 });
